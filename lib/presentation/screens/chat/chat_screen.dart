@@ -14,13 +14,14 @@ class ChatScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: const Padding(
-          padding: EdgeInsets.all(5.0),
+          padding: EdgeInsets.all(4.0),
           child: CircleAvatar(
-              backgroundImage: NetworkImage(
-                  'https://i0.wp.com/www.biggaypictureshow.com/bgps/wp-content/uploads/2015/01/ted-2-poster1.jpg?resize=750%2C1188')),
+            backgroundImage: NetworkImage(
+                'https://www.stylist.co.uk/images/app/uploads/2022/06/01105352/jennifer-aniston-crop-1654077521-1390x1390.jpg?w=256&h=256&fit=max&auto=format%2Ccompress'),
+          ),
         ),
-        title: const Text('Mi amor <3'),
-        centerTitle: true,
+        title: const Text('Mi amor ♥️'),
+        centerTitle: false,
       ),
       body: _ChatView(),
     );
@@ -31,27 +32,32 @@ class _ChatView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final chatProvider = context.watch<ChatProvider>();
+
     return SafeArea(
-        child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-      child: Column(
-        children: [
-          Expanded(
-              child: ListView.builder(
-            controller: chatProvider.chatScrollController,
-            itemCount: chatProvider.messageList.length,
-            itemBuilder: (context, index) {
-              final message = chatProvider.messageList[index];
-              return (message.fromWho == FromWho.hers)
-                  ? const HerMessageBubble()
-                  : MyMessageBubble(message: message);
-            },
-          )),
-          MessageFieldBox(
-            onValue: chatProvider.sendMessage,
-          )
-        ],
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          children: [
+            Expanded(
+                child: ListView.builder(
+                  controller: chatProvider.chatScrollController,
+                    itemCount: chatProvider.messageList.length,
+                    itemBuilder: (context, index) {
+                      final message = chatProvider.messageList[index];
+                       
+                      return (message.fromWho == FromWho.hers)
+                          ? HerMessageBubble( message: message )
+                          : MyMessageBubble( message: message );
+                    })),
+
+            /// Caja de texto de mensajes
+            MessageFieldBox(
+              // onValue: (value) => chatProvider.sendMessage(value),
+              onValue: chatProvider.sendMessage,
+            ),
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
